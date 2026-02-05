@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy 9 Months, Kashu! ❤️ - From Reyansh</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 50%, #fad0c4 100%);
+      color: #333;
+      overflow: hidden;
+      height: 100vh;
+      position: relative;
+    }
+
+    /* Floating hearts */
+    .heart {
+      position: absolute;
+      font-size: 30px;
+      color: #ff4757;
+      animation: float 12s infinite linear;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0% { transform: translateY(100vh) rotate(0deg); }
+      100% { transform: translateY(-20vh) rotate(360deg); }
+    }
+
+    .page {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      box-sizing: border-box;
+      transition: opacity 0.5s ease;
+      opacity: 0;
+      z-index: 1;
+    }
+    .page.active {
+      opacity: 1;
+      z-index: 2;
+    }
+
+    h1 {
+      font-size: 3.5em;
+      color: #e84393;
+      margin: 20px 0;
+      text-shadow: 3px 3px 10px rgba(255, 105, 180, 0.6);
+    }
+
+    .banner {
+      font-size: 2.8em;
+      color: #ff6b81;
+      margin: 20px 0;
+      font-weight: bold;
+      text-shadow: 0 0 15px #ff4757;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .letter {
+      font-size: 1.3em;
+      line-height: 1.7;
+      color: #2f3542;
+      background: #fff0f5;
+      padding: 30px;
+      border-radius: 20px;
+      border: 2px dashed #ff79cd;
+      margin: 30px 0;
+      white-space: pre-wrap;
+      text-align: left;
+      max-width: 800px;
+      overflow-y: auto;
+      max-height: 60vh;
+    }
+
+    button.popper {
+      font-size: 1.5em;
+      padding: 15px 40px;
+      background: #ff4757;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      margin: 30px 0;
+      box-shadow: 0 8px 20px rgba(255, 71, 87, 0.5);
+      transition: all 0.3s;
+    }
+    button.popper:hover {
+      background: #e84393;
+      transform: scale(1.1);
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -150px;
+      font-size: 80px;
+      animation: rise 15s infinite linear;
+      opacity: 0.9;
+    }
+    @keyframes rise {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-120vh); }
+    }
+
+    .game {
+      margin: 40px 0;
+      padding: 20px;
+      background: #ffeef0;
+      border-radius: 20px;
+      text-align: center;
+      max-width: 600px;
+    }
+    .game button {
+      margin: 10px;
+      padding: 12px 25px;
+      font-size: 1.2em;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+    }
+    .game-options button {
+      background: #ff79cd;
+      color: white;
+    }
+    .game-options button:hover {
+      background: #e84393;
+    }
+    #game-question {
+      font-size: 1.4em;
+      color: #e84393;
+      margin-bottom: 20px;
+    }
+    #game-feedback {
+      font-size: 1.2em;
+      margin-top: 20px;
+      color: #2f3542;
+    }
+
+    /* Curtain-like sides */
+    .curtain-left, .curtain-right {
+      position: fixed;
+      top: 0;
+      width: 150px;
+      height: 100%;
+      background: linear-gradient(to right, #ff6b81, transparent);
+      opacity: 0.4;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .curtain-left { left: 0; transform: skew(10deg); }
+    .curtain-right { right: 0; transform: skew(-10deg); background: linear-gradient(to left, #ff6b81, transparent); }
+
+    .nav-buttons {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+    }
+    .nav-buttons button {
+      padding: 10px 20px;
+      margin: 0 10px;
+      font-size: 1.2em;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      background: #ff4757;
+      color: white;
+      transition: all 0.3s;
+    }
+    .nav-buttons button:hover {
+      background: #e84393;
+      transform: scale(1.05);
+    }
+    .nav-buttons button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating hearts (global) -->
+  <div class="heart" style="left:10%; animation-delay:0s;">❤️</div>
+  <div class="heart" style="left:20%; animation-delay:2s;">💕</div>
+  <div class="heart" style="left:30%; animation-delay:4s;">💖</div>
+  <div class="heart" style="left:40%; animation-delay:6s;">❤️</div>
+  <div class="heart" style="left:50%; animation-delay:1s;">💞</div>
+  <div class="heart" style="left:60%; animation-delay:3s;">💗</div>
+  <div class="heart" style="left:70%; animation-delay:5s;">❤️</div>
+  <div class="heart" style="left:80%; animation-delay:7s;">💓</div>
+  <div class="heart" style="left:90%; animation-delay:8s;">💘</div>
+
+  <!-- Balloons (global) -->
+  <div class="balloon" style="left:15%; animation-delay:0s;">🎈</div>
+  <div class="balloon" style="left:35%; animation-delay:3s;">🎈</div>
+  <div class="balloon" style="left:55%; animation-delay:6s;">🎈</div>
+  <div class="balloon" style="left:75%; animation-delay:9s;">🎈</div>
+  <div class="balloon" style="left:25%; animation-delay:12s;">🎈</div>
+
+  <div class="curtain-left"></div>
+  <div class="curtain-right"></div>
+
+  <!-- Pages -->
+  <div id="page1" class="page active">
+    <h1>Happy 9 Months, My Kashu! 🎉❤️</h1>
+    <div class="banner">Happy 9 Months Anniversary, Baby! 💞</div>
+    <p style="font-size:1.4em; color:#e84393; margin:30px 0;">From your Reyansh, with all my love muwhhahaha 😘</p>
+    <p style="font-size:1.2em;">Swipe through the pages for surprises! 💕</p>
+  </div>
+
+  <div id="page2" class="page">
+    <h1>Your Special Letter, Kashu 📜❤️</h1>
+    <div class="letter">
+Happy nine months babe i love you so much man muwhhaahahaha 
+i love you baby i love you very much man u mean everything to me man 
+i love you sososososososo much 
+
+AAP EKDUM WORRY MAT KARO BABYYYY 
+AAPKA EXAM NA BAHUT ACHA JAYEGA YEA AO HAAPPY 9 MONTHS MAN 
+
+LIKE CRAZY GYA MERA PAST NINE MONTHS LIKE GENUINELY ITNA MAST KI KYA HI BATAUU TUMKO BABY 
+MUWHAHAHAHAHAHAA
+
+MAN NEXT MONTH WE WILL SPEND OUR ANNIVERSARY TOGETHER AYAYAYAYAYAYAA BHAI 
+DO EXCITED MAN ISS BAAR BHT ACHE SE PLAN KRKE USKO EXECUTE KROONGA PAKA MAN 
+
+AB MEIN THODA TRAINED HOGYA HOON YE SAB LEKE MAN MUWHAHAHAHA 
+AB THODA CREATIVE HONE LAGA HU MY LOVE 
+
+AND ON OUR NINE MONTHS I J WANT TO ASK YOU THAT 
+WILL YOU BE MY VALENTINE. 
+
+MAN AAJ ITNA HI DE RHA COZ TIME NHI HAI 
+KAL BETTER KROONGA MUWHAHAHAHAHAHAH
+    </div>
+  </div>
+
+  <div id="page3" class="page">
+    <h1>Pop the Party Popper! 🎊✨</h1>
+    <p style="font-size:1.4em; color:#e84393; margin:20px 0;">Click below to celebrate our 9 months, baby! 💥😘</p>
+    <button class="popper" onclick="celebrate()">Pop Me, Kashu! 🎉</button>
+  </div>
+
+  <div id="page4" class="page">
+    <h1>Fun Interactive Game Time! 🎮💕</h1>
+    <div class="game">
+      <div id="game-question">Question 1: How much does Reyansh love Kashu?</div>
+      <div class="game-options">
+        <button onclick="answer(1, 'A')">A: A lot!</button>
+        <button onclick="answer(1, 'B')">B: Infinity!</button>
+        <button onclick="answer(1, 'C')">C: More than the stars!</button>
+      </div>
+      <div id="game-feedback"></div>
+      <button id="next-question" style="display:none; background:#2ed573; color:white; margin-top:20px;" onclick="nextQuestion()">Next Question</button>
+    </div>
+  </div>
+
+  <div id="page5" class="page">
+    <h1>Final Message, My Love 🥰</h1>
+    <p style="font-size:1.4em; color:#e84393; margin:30px 0;">I love you sososo much, Kashu. Happy 9 months, my everything! Next month we'll make it epic together! 🚀😘</p>
+    <p style="font-size:1.2em;">Muwhahaha, from Reyansh ❤️</p>
+  </div>
+
+  <!-- Navigation -->
+  <div class="nav-buttons">
+    <button id="prev" onclick="prevPage()" disabled>Previous</button>
+    <button id="next" onclick="nextPage()">Next</button>
+  </div>
+
+  <!-- Confetti library -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script>
+    let currentPage = 1;
+    const totalPages = 5;
+
+    function showPage(page) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.getElementById(`page${page}`).classList.add('active');
+      document.getElementById('prev').disabled = page === 1;
+      document.getElementById('next').disabled = page === totalPages;
+    }
+
+    function nextPage() {
+      if (currentPage < totalPages) {
+        currentPage++;
+        showPage(currentPage);
+      }
+    }
+
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
+        showPage(currentPage);
+      }
+    }
+
+    function celebrate() {
+      confetti({
+        particleCount: 150,
+        spread: 80,
+        origin: { y: 0.6 },
+        colors: ['#ff4757', '#ff6b81', '#e84393', '#1e90ff', '#2ed573']
+      });
+
+      confetti({
+        particleCount: 80,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0.3, y: 0.6 },
+        shapes: ['heart'],
+        colors: ['#ff4757', '#ff79cd']
+      });
+
+      confetti({
+        particleCount: 80,
+        angle: 120,
+        spread: 55,
+        origin: { x: 0.7, y: 0.6 },
+        shapes: ['heart'],
+        colors: ['#e84393', '#ff6b81']
+      });
+
+      alert("Yayyyy! Party time Kashu! 🎉💥 I love you baby muwhahaha ❤️");
+    }
+
+    // Game logic
+    let currentQuestion = 1;
+    const questions = [
+      "How much does Reyansh love Kashu?",
+      "Will you be my Valentine? (From the letter ❤️)",
+      "How excited am I for next month's anniversary?"
+    ];
+    const options = [
+      ['A: A lot!', 'B: Infinity!', 'C: More than the stars!'],
+      ['A: Yes!', 'B: Absolutely!', 'C: Muwhahaha yes!'],
+      ['A: Super excited!', 'B: Crazy excited!', 'C: Ayayayayaya excited!']
+    ];
+    const feedbacks = [
+      "Yesss! All are right because I love you THAT much baby! 💖😘",
+      "Yayyy! You're my Valentine forever Kashu! ❤️🎉",
+      "Exactly! Can't wait to spend it together muwhahaha! 🚀🥰"
+    ];
+
+    function updateQuestion() {
+      if (currentQuestion <= questions.length) {
+        document.getElementById('game-question').innerText = `Question ${currentQuestion}: ${questions[currentQuestion-1]}`;
+        const opts = document.querySelector('.game-options');
+        opts.innerHTML = '';
+        options[currentQuestion-1].forEach((opt, i) => {
+          const btn = document.createElement('button');
+          btn.innerText = opt;
+          btn.onclick = () => answer(currentQuestion, String.fromCharCode(65 + i));
+          opts.appendChild(btn);
+        });
+        document.getElementById('game-feedback').innerText = '';
+        document.getElementById('next-question').style.display = 'none';
+      } else {
+        document.getElementById('game-question').innerText = 'Game Over! You won my heart again! 💕';
+        document.querySelector('.game-options').innerHTML = '';
+        document.getElementById('game-feedback').innerText = 'I love you sososo much Kashu! 😘';
+        document.getElementById('next-question').style.display = 'none';
+      }
+    }
+
+    function answer(q, choice) {
+      document.getElementById('game-feedback').innerText = feedbacks[q-1];
+      document.getElementById('next-question').style.display = 'block';
+      celebrate(); // Add confetti for fun!
+    }
+
+    function nextQuestion() {
+      currentQuestion++;
+      updateQuestion();
+    }
+
+    // Init game
+    updateQuestion();
+
+    // More floating hearts over time
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.innerHTML = Math.random() > 0.5 ? '❤️' : '💕';
+      heart.style.left = Math.random() * 100 + '%';
+      heart.style.animationDuration = (Math.random() * 8 + 8) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 15000);
+    }, 2000);
+
+    // Start on page 1
+    showPage(1);
+  </script>
+
+</body>
+</html>
